@@ -1,0 +1,127 @@
+[gd_scene load_steps=23 format=2]
+
+[ext_resource path="res://merchant/courtyard.png" type="Texture" id=1]
+[ext_resource path="res://courtyard.gd" type="Script" id=2]
+[ext_resource path="res://merchant.png" type="Texture" id=3]
+[ext_resource path="res://Merchant.gd" type="Script" id=4]
+[ext_resource path="res://merchant/idle.png" type="Texture" id=5]
+[ext_resource path="res://merchant/right_walk1.png" type="Texture" id=6]
+[ext_resource path="res://merchant/right_walk2.png" type="Texture" id=7]
+[ext_resource path="res://merchant/right_walk3.png" type="Texture" id=8]
+[ext_resource path="res://right_walk4.png" type="Texture" id=9]
+[ext_resource path="res://merchant/left_walk1.png" type="Texture" id=10]
+[ext_resource path="res://merchant/left_walk2.png" type="Texture" id=11]
+[ext_resource path="res://merchant/left_walk3.png" type="Texture" id=12]
+[ext_resource path="res://merchant/left_walk4.png" type="Texture" id=13]
+[ext_resource path="res://AnimatedSprite.gd" type="Script" id=14]
+[ext_resource path="res://merchant (1).png" type="Texture" id=15]
+[ext_resource path="res://AtlasMerchant.gd" type="Script" id=16]
+
+[sub_resource type="TileSet" id=1]
+
+[sub_resource type="StreamTexture" id=2]
+flags = 4
+load_path = "res://.import/medieval wall.png-8ce2645f510376ea8e0ff0629d938854.stex"
+
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [ ExtResource( 5 ) ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ) ],
+"loop": true,
+"name": "walk right",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ) ],
+"loop": true,
+"name": "walk left",
+"speed": 5.0
+} ]
+
+[sub_resource type="AtlasTexture" id=4]
+flags = 4
+atlas = ExtResource( 15 )
+region = Rect2( 0, 0, 2880, 3648 )
+filter_clip = true
+
+[sub_resource type="RectangleShape2D" id=5]
+
+[sub_resource type="Animation" id=6]
+tracks/0/type = "method"
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray(  ),
+"transitions": PoolRealArray(  ),
+"values": [  ]
+}
+
+[node name="WorldRoot" type="Node2D"]
+
+[node name="TileMap" type="TileMap" parent="."]
+position = Vector2( 0, -3.05176e-05 )
+tile_set = SubResource( 1 )
+format = 1
+
+[node name="medieval wall" type="Sprite" parent="TileMap"]
+position = Vector2( 519.138, 298.447 )
+scale = Vector2( 0.862783, 0.750398 )
+texture = SubResource( 2 )
+
+[node name="Camera2D" type="Camera2D" parent="TileMap/medieval wall"]
+position = Vector2( 0.662964, 6.8577 )
+scale = Vector2( 1.15904, 1.33263 )
+current = true
+
+[node name="courtyard" type="Sprite" parent="TileMap"]
+position = Vector2( 1036.85, -2.57281 )
+scale = Vector2( 0.858495, 0.762859 )
+texture = ExtResource( 1 )
+centered = false
+vframes = 2
+hframes = 2
+frame = 2
+region_rect = Rect2( 0, 0, 2400, 1584 )
+script = ExtResource( 2 )
+
+[node name="Merchant" type="Sprite" parent="."]
+visible = false
+position = Vector2( 534.075, 492.293 )
+scale = Vector2( 1.41309, 1.33942 )
+texture = ExtResource( 3 )
+script = ExtResource( 4 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 351.553, 477.937 )
+scale = Vector2( 0.30928, 0.297431 )
+frames = SubResource( 3 )
+animation = "walk left"
+frame = 1
+playing = true
+script = ExtResource( 14 )
+
+[node name="KinematicBody2D" type="KinematicBody2D" parent="."]
+visible = false
+
+[node name="AtlasMerchant" type="Sprite" parent="KinematicBody2D"]
+visible = false
+position = Vector2( 211.297, 412.412 )
+scale = Vector2( 0.527975, 0.475218 )
+texture = SubResource( 4 )
+vframes = 4
+hframes = 3
+frame = 3
+script = ExtResource( 16 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D"]
+visible = false
+shape = SubResource( 5 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="KinematicBody2D"]
+"anims/walk left" = SubResource( 6 )
